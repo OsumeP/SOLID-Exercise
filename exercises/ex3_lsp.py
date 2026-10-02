@@ -26,11 +26,10 @@ class UnreliableCar(Vehicle):
 
     def move(self) -> None:
         roll = random.random()
-        if roll < 0.45:
-            return
+        if roll < 0.30:
+            return 
         else:
-            self.position += 5
-
+            self.position += 5        
 
 def main():
     vehicles = [SteadyCar("Reliable Rex"), UnreliableCar("Shaky Sam")]

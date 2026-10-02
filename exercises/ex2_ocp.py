@@ -1,3 +1,28 @@
+"""
+Exercise 2 - Open/Closed Principle (OCP)
+
+Vehicle, Car and Truck below are COMPLETE and WORKING -- treat them as
+"closed for modification". Do not change them (or Track).
+
+YOUR TASK: implement Motorcycle and Bicycle purely by EXTENSION (new
+subclasses of Vehicle), so the race in main() ends up showing four very
+different movement patterns:
+
+  - Motorcycle: fast but erratic -- its step size should vary a lot from
+    tick to tick (e.g. sometimes a small wobble, sometimes a big burst).
+  - Bicycle: starts strong but gets slower over time as the rider tires
+    out (its step size should shrink, but never drop below 1).
+
+If finishing this exercise ever makes you want to edit Vehicle, Car,
+Truck or Track, that's a sign your design isn't using OCP yet --
+polymorphism (new subclasses) should be enough.
+
+Run it to watch the race:
+    python -m exercises.ex2_ocp
+
+Check your work:
+    pytest tests/test_ex2_ocp.py -v
+"""
 import random
 from engine.track import Track
 
@@ -32,20 +57,21 @@ class Motorcycle(Vehicle):
     symbol = "\U0001F3CD"
 
     def move(self) -> None:
-        self.position += random.randint(2, 9)
+        self.position += random.randint(1, 8)
 
 
 class Bicycle(Vehicle):
     symbol = "\U0001F6B2"
 
     def __init__(self, name: str):
-        super().__init__(name)
-        self.energy = 8
+        super().__init__(name)    
+        self.speed = 5
 
     def move(self) -> None:
-        self.position += self.energy
-        self.energy = max(self.energy - 1, 1)
-
+        self.position += self.speed
+     
+        if self.speed > 1:
+            self.speed -= 1                 
 
 
 def main():
