@@ -1,33 +1,8 @@
-"""
-Exercise 2 - Open/Closed Principle (OCP)
-
-Vehicle, Car and Truck below are COMPLETE and WORKING -- treat them as
-"closed for modification". Do not change them (or Track).
-
-YOUR TASK: implement Motorcycle and Bicycle purely by EXTENSION (new
-subclasses of Vehicle), so the race in main() ends up showing four very
-different movement patterns:
-
-  - Motorcycle: fast but erratic -- its step size should vary a lot from
-    tick to tick (e.g. sometimes a small wobble, sometimes a big burst).
-  - Bicycle: starts strong but gets slower over time as the rider tires
-    out (its step size should shrink, but never drop below 1).
-
-If finishing this exercise ever makes you want to edit Vehicle, Car,
-Truck or Track, that's a sign your design isn't using OCP yet --
-polymorphism (new subclasses) should be enough.
-
-Run it to watch the race:
-    python -m exercises.ex2_ocp
-
-Check your work:
-    pytest tests/test_ex2_ocp.py -v
-"""
+import random
 from engine.track import Track
 
 
 class Vehicle:
-    """Base type every racer in this exercise extends."""
 
     symbol = "?"
 
@@ -57,8 +32,7 @@ class Motorcycle(Vehicle):
     symbol = "\U0001F3CD"
 
     def move(self) -> None:
-        # TODO(OCP): move forward by a varying, sometimes-large amount.
-        raise NotImplementedError("Implement Motorcycle.move()")
+        self.position += random.randint(2, 9)
 
 
 class Bicycle(Vehicle):
@@ -66,12 +40,12 @@ class Bicycle(Vehicle):
 
     def __init__(self, name: str):
         super().__init__(name)
-        # TODO(OCP): add any state you need to track fatigue over time.
+        self.energy = 8
 
     def move(self) -> None:
-        # TODO(OCP): move forward by a shrinking amount as ticks go by
-        # (never less than 1).
-        raise NotImplementedError("Implement Bicycle.move()")
+        self.position += self.energy
+        self.energy = max(self.energy - 1, 1)
+
 
 
 def main():
